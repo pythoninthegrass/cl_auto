@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bs4 = "*"
+ipykernel = "*"
+json = "*"
+pandas = "*"
+prettytable = "*"
+python-craigslist = "*"
+python-decouple = "*"
+requests = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
