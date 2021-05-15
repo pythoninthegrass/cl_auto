@@ -30,9 +30,9 @@ pipenv install
 $ pipenv shell
 
 # run python script
-(meraki_portcylcle_cronjob) $ python main.py
+(cl_auto) $ python main.py
 
 # deactivate virtualenv
-(meraki_portcylcle_cronjob) $ exit
+(cl_auto) $ exit
 
 ## SOURCES
