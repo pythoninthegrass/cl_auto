@@ -7,7 +7,7 @@
 brew install pyenv
 # pyenv install 3.8.9
 # pyenv local 3.8.9
-# ln -s ~/.pyenv/versions/3.7.3/bin/python3.7 /usr/local/bin/python3.7
+# ln -s ~/.pyenv/versions/3.8.9/bin/python3.8 /usr/local/bin/python3.8
 ```
 ### pipenv
 ```bash
@@ -30,9 +30,11 @@ pipenv install
 $ pipenv shell
 
 # run python script
-(cl_auto) $ python main.py
+(cl_auto) $ python cl_auto.py
 
 # deactivate virtualenv
 (cl_auto) $ exit
+```
 
 ## SOURCES
+TODO
