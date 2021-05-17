@@ -1,7 +1,10 @@
 # custom
-Pipfile.lock
+.vscode/settings.json
+*.bak
 *.csv
 *copy*.txt
+copy.txt
+Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
