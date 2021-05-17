@@ -1,5 +1,7 @@
 # custom
 Pipfile.lock
+*.csv
+*copy*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
