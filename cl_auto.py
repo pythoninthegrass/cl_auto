@@ -6,14 +6,16 @@ import argparse
 import ast
 import csv
 import datetime
+import numpy as np
 import os
 import pandas as pd
+import re
 
 home = os.path.expandvars("$HOME")
 now = datetime.datetime.now()
 cwd = os.getcwd()
 # env = os.getcwd() + '/.env'
-res_out = f"{cwd}/result_{now:%Y%m%d_%H%M}.csv"
+res_out = f"{cwd}/result_{now:%Y%m%d}.csv"
 
 # CraigslistForSale.show_filters()
 
@@ -32,8 +34,8 @@ pt = PrettyTable(['name', 'price', 'last_updated', 'where', 'url'])
 pt.align = 'l'
 
 # csv output
-res_csvfile = open(res_out, 'w', newline='')
-writer = csv.writer(res_csvfile)
+res_csv = open(res_out, 'w', newline='')
+writer = csv.writer(res_csv)
 writer.writerow(['name', 'price', 'last_updated', 'where', 'url'])
 
 # env vars
@@ -71,7 +73,7 @@ with open("copy.txt", "r") as file:
     copy = str(raw)[1:-1]
     data = ast.literal_eval(str(copy))
 
-csv_out = [fn for fn in glob(f'{cwd}/*', recursive=False)
+glob_csv = [fn for fn in glob(f'{cwd}/*', recursive=False)
         if os.path.basename(fn).startswith('result')]
 
 for k in data:
@@ -80,15 +82,55 @@ for k in data:
     # print(k['name'], k['price'], k['last_updated'], k['where'], k['url'])
     flattened = k['name'], k['price'], k['last_updated'], k['where'], k['url']
     pt.add_row(flattened)
-    if not os.path.exists(str(csv_out)):
+    if not os.path.exists(str(glob_csv)):
         writer.writerow(flattened)
 
-print(pt)
+# print(pt)
+res_csv.close()
 
-# TODO: massage data (extract date from name, sort by price/year/last_updated, filter dupe, validate where col)
-df = pd.read_csv(res_csvfile)
-with pd.option_context('display.max_rows', None,
-    'display.max_columns', None, 'display.expand_frame_repr', False):
-        print(df)
+# create empty list to store dataframes
+lst = []
+for f in glob_csv:
+    temp_df = pd.read_csv(f)
+    lst.append(temp_df)
+    print(f'Successfully created dataframe for {f} with shape {temp_df.shape}')
 
-res_csvfile.close()
+# concatenate our list of dataframes into one
+df = pd.concat(lst, axis=0)
+
+# extract year from name
+df['year'] = df.name.str.extract(r'(^\d+)', expand = True)
+
+# move year column to front
+df = df.set_index('year').reset_index()
+
+# sorting
+df.sort_values(['price', 'year', 'last_updated'], ascending=[True, True, True], inplace=True)
+
+# drop dulicate values
+df.drop_duplicates(subset='name', inplace=True)
+
+# uppercase location
+df['where'] = df['where'].str.upper()
+
+# TODO: strip non-location strings in where col
+not_loc = re.compile(r'''
+(?!oklahoma city)|
+(?!okc)|
+(?!tulsa)|
+(?!catoosa)|
+(?!edmond)|
+(?!broken arrow)|
+(?!skiatook)|
+(?!tuttle)
+''', re.IGNORECASE
+)
+# df['where'] = df['where'].apply(lambda x: not_loc.findall(x) if type(x) is str else x)
+# df['where'] = df['where'].str.replace(not_loc, np.nan)
+
+with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.expand_frame_repr', False):
+    # print(df.shape)
+    df.head()
+    print(df)
+
+df.to_csv (f"{cwd}/pandas_{now:%Y%m%d}.csv", index = False, header=True)
