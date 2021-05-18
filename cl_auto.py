@@ -38,6 +38,7 @@ res_csv = open(res_out, 'w', newline='')
 writer = csv.writer(res_csv)
 writer.writerow(['name', 'price', 'last_updated', 'where', 'url'])
 
+# TODO: exclude expired posts
 # env vars
 sites = ['oklahomacity', 'tulsa']
 category = 'cta'
