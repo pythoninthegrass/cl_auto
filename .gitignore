@@ -2,8 +2,7 @@
 .vscode/settings.json
 *.bak
 *.csv
-*copy*.txt
-copy.txt
+*.txt
 Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
