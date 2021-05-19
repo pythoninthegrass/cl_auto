@@ -12,6 +12,9 @@ python-craigslist = "*"
 python-decouple = "*"
 requests = "*"
 numpy = "*"
+playwright = "*"
+prompt-toolkit = "*"
+websockets = "*"
 
 [dev-packages]
 
