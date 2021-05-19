@@ -7,7 +7,7 @@
 brew install pyenv
 # pyenv install 3.9.0
 # pyenv local 3.9.0
-# ln -s ~/.pyenv/versions/3.9.0/bin/python3.9 /usr/local/bin/python3.8
+# ln -s ~/.pyenv/versions/3.9.0/bin/python3.9 /usr/local/bin/python3.9
 ```
 ### pipenv
 ```bash
