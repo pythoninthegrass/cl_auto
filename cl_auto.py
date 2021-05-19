@@ -1,5 +1,6 @@
 from craigslist import CraigslistForSale
 from glob import glob
+from playwright.sync_api import sync_playwright
 from pprint import pprint
 from prettytable import PrettyTable
 import argparse
@@ -114,6 +115,9 @@ df.drop_duplicates(subset='name', inplace=True)
 # uppercase location
 df['where'] = df['where'].str.upper()
 
+# URLs
+links = df.loc[:,"url"].to_string(index=False)
+
 # TODO: strip non-location strings in where col
 not_loc = re.compile(r'''
 (?!oklahoma city)|
@@ -135,3 +139,35 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'd
     print(df)
 
 df.to_csv (f"{cwd}/pandas_{now:%Y%m%d}.csv", index = False, header=True)
+
+# TODO: loop through `links` (open/close)
+# Open URLs in chrome test browser
+def run(playwright):
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context()
+
+    # Open new page
+    page = context.new_page()
+
+    # TODO: scrape URL for `This posting has been deleted by its author.`
+    # Click text=This posting has been deleted by its author.
+    # page.click("text=This posting has been deleted by its author.")
+
+    # Open new tab (page(n) == tab)
+    page1 = context.new_page()
+
+    # Go to https://oklahomacity.craigslist.org/ctd/d/bethany-2014-honda-accord-ex-4dr-sedan/7320807027.html
+    page1.goto("https://oklahomacity.craigslist.org/ctd/d/bethany-2014-honda-accord-ex-4dr-sedan/7320807027.html")
+
+    # get pages of a brower context
+    all_pages = context.pages()
+
+    # Close page
+    page1.close()
+
+    # ---------------------
+    context.close()
+    browser.close()
+
+with sync_playwright() as playwright:
+    run(playwright)
