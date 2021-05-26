@@ -40,6 +40,19 @@ $ pipenv shell
 (cl_auto) $ exit
 ```
 
+## TODO
+* Loop through `url` column and open each page in Playwright
+    * Keep Playwright open until each tab is closed
+    * Headless option (i.e., don't open Playwright window, just capture results)
+* [argparse](https://realpython.com/command-line-interfaces-python-argparse/)
+* [Dockerize script](https://github.com/pythoninthegrass/docker-python)
+* Add SMTP
+    * Google API account for mail server
+    * Email csv
+* Cron job to mail results weekly
+* Convert to k8s pod
+* Deploy to web host (e.g., AWS, Digital Ocean)
+
 ## SOURCES
 [Enable GUIs on Windows Subsystem Linux (WSL) · Scott Spence](https://scottspence.com/2020/12/09/gui-with-wsl/#video-detailing-the-process)
 
