@@ -1,16 +1,19 @@
 from craigslist import CraigslistForSale
 from glob import glob
+# from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
 from pprint import pprint
 from prettytable import PrettyTable
-import argparse
+# import argparse
 import ast
+# import asyncio
 import csv
 import datetime
-import numpy as np
+# import numpy as np
 import os
 import pandas as pd
 import re
+import sys
 
 home = os.path.expandvars("$HOME")
 now = datetime.datetime.now()
@@ -116,7 +119,12 @@ df.drop_duplicates(subset='name', inplace=True)
 df['where'] = df['where'].str.upper()
 
 # URLs
-links = df.loc[:,"url"].to_string(index=False)
+links = df.loc[:,"url"].to_string(index=False)  # csv
+# urls = [
+#     "https://scrapethissite.com/pages/ajax-javascript/#2015",
+#     "https://scrapethissite.com/pages/ajax-javascript/#2014",
+# ]
+urls = df.loc[:,"url"].tolist()                 # playwright browser
 
 # TODO: strip non-location strings in where col
 not_loc = re.compile(r'''
@@ -140,34 +148,44 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'd
 
 df.to_csv (f"{cwd}/pandas_{now:%Y%m%d}.csv", index = False, header=True)
 
-# TODO: loop through `links` (open/close)
-# Open URLs in chrome test browser
-def run(playwright):
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
+# TODO: text selector `This posting has been deleted by its author.` or `This posting has expired.`
+# Click text=This posting has been deleted by its author.
+# page.click("text=This posting has been deleted by its author.")
 
-    # Open new page
-    page = context.new_page()
+# ASYNC
+# async def main(url):
+#     async with async_playwright() as playwright:
+#         browser = await playwright.chromium.launch(headless=False)
+#         context = await browser.new_context()
+#         page = await context.new_page()
+#         await page.goto(url, timeout=None)
+#         await page.wait_for_timeout(15000)
+#         await context.close()
+#         await browser.close()
 
-    # TODO: scrape URL for `This posting has been deleted by its author.`
-    # Click text=This posting has been deleted by its author.
-    # page.click("text=This posting has been deleted by its author.")
+# async def go_to_url():
+#     tasks = [main(url) for url in urls]
+#     await asyncio.wait(tasks)
 
-    # Open new tab (page(n) == tab)
-    page1 = context.new_page()
+# asyncio.get_event_loop().run_until_complete(go_to_url())
 
-    # Go to https://oklahomacity.craigslist.org/ctd/d/bethany-2014-honda-accord-ex-4dr-sedan/7320807027.html
-    page1.goto("https://oklahomacity.craigslist.org/ctd/d/bethany-2014-honda-accord-ex-4dr-sedan/7320807027.html")
-
-    # get pages of a brower context
-    all_pages = context.pages()
-
-    # Close page
-    page1.close()
-
-    # ---------------------
-    context.close()
-    browser.close()
+# SYNC
+def main():
+    try:
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        for url in urls:
+            page = context.new_page()
+            page.goto(url)
+        page.wait_for_timeout(60000)    # 60 seconds
+    except KeyboardInterrupt as k:
+        print('\nKeyboard exception received. Exiting ')
+        context.close()
+        browser.close()
+        sys.exit(0)
+    except Exception:
+        print(f"\nUncaught exception occurred. Exiting ")
+        sys.exit(1)
 
 with sync_playwright() as playwright:
-    run(playwright)
+    main()
