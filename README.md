@@ -42,7 +42,7 @@ $ pipenv shell
 
 ## TODO
 * Loop through `url` column and open each page in Playwright
-    * Keep Playwright open until each tab is closed
+    * ~~Keep Playwright open until each tab is closed~~ (timeout or ctrl-c workaround)
     * Headless option (i.e., don't open Playwright window, just capture results)
 * [argparse](https://realpython.com/command-line-interfaces-python-argparse/)
 * [Dockerize script](https://github.com/pythoninthegrass/docker-python)
@@ -60,3 +60,6 @@ $ pipenv shell
 
 [Protecting X410 Public Access for WSL2 via Windows Defender Firewall - X410.dev](https://x410.dev/cookbook/wsl/protecting-x410-public-access-for-wsl2-via-windows-defender-firewall/)
 
+[Playwright for Python](https://playwright.dev/python/)
+
+[web scraping - How do you open multiple pages asynchronously with Playwright Python? - Stack Overflow](https://stackoverflow.com/questions/64664437/how-do-you-open-multiple-pages-asynchronously-with-playwright-python)
