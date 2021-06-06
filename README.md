@@ -40,12 +40,45 @@ $ pipenv shell
 (cl_auto) $ exit
 ```
 
+## Development
+* Install `asdf`
+```bash
+# install asdf
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+cd ~/.asdf
+git checkout "$(git describe --abbrev=0 --tags)"
+
+# ~/.bashrc
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+```
+* Install `node`
+```bash
+# install npm and node
+curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y
+
+# ~/.bashrc (added automatically via `n-install`)
+# export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+
+# rm -rf
+npm install rimraf --global
+
+
+```
+* Install terraform
+```bash
+asdf plugin add terraform
+asdf plugin list
+```
+* Install Docker Desktop for Windows[<sup>1</sup>](#1)
+* Generate dependencies list: `pipenv lock --requirements > requirements.txt`
+
 ## TODO
 * Loop through `url` column and open each page in Playwright
     * ~~Keep Playwright open until each tab is closed~~ (timeout or ctrl-c workaround)
     * Headless option (i.e., don't open Playwright window, just capture results)
-* [argparse](https://realpython.com/command-line-interfaces-python-argparse/)
 * [Dockerize script](https://github.com/pythoninthegrass/docker-python)
+* [argparse](https://realpython.com/command-line-interfaces-python-argparse/)
 * Add SMTP
     * Google API account for mail server
     * Email csv
@@ -63,3 +96,9 @@ $ pipenv shell
 [Playwright for Python](https://playwright.dev/python/)
 
 [web scraping - How do you open multiple pages asynchronously with Playwright Python? - Stack Overflow](https://stackoverflow.com/questions/64664437/how-do-you-open-multiple-pages-asynchronously-with-playwright-python)
+
+[asdf](https://asdf-vm.com/#/core-manage-asdf)
+
+[n](https://github.com/tj/n#third-party-installers)
+
+[How to Set Up Docker in WSL [Step-by-Step]](https://adamtheautomator.com/how-to-set-up-docker-in-wsl-step-by-step/)<a class="anchor" id="1"></a>
