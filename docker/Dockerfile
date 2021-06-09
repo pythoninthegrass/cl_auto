@@ -27,7 +27,7 @@ RUN python3.9 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Install pip requirements
-COPY requirements.txt .
+COPY ../requirements.txt .
 RUN pip3 install --no-cache-dir wheel && pip3 install --no-cache-dir -r requirements.txt
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -57,6 +57,7 @@ RUN apt-get update \
 USER appuser
 
 COPY --from=builder-image --chown=appuser:appuser /opt/venv /opt/venv
+COPY --from=builder-image --chown=appuser:appuser /ms-playwright /ms-playwright
 
 # activate virtual environment
 # Keeps Python from generating .pyc files in the container
@@ -76,5 +77,5 @@ WORKDIR /home/appuser/app
 # ENV EC2_KEY='not defined' K8S_KEY='not defined'
 
 # Default arguments (originally /bin/bash)
-ENTRYPOINT [ "/bin/bash" ]
-# ENTRYPOINT [ "/opt/venv/bin/python", "main.py" ]
+# ENTRYPOINT [ "/bin/bash" ]
+ENTRYPOINT [ "/opt/venv/bin/python", "cl_auto.py" ]
