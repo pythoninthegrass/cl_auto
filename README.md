@@ -74,13 +74,10 @@ asdf plugin list
 * Generate dependencies list: `pipenv lock --requirements > requirements.txt`
 
 ## TODO
-* Update instructions
-    * Mix and match from `jss_migrator` README.md
 * Loop through `url` column and open each page in Playwright
     * ~~Keep Playwright open until each tab is closed~~ (timeout or ctrl-c workaround)
     * Headless option (i.e., don't open Playwright window, just capture results)
 * [Dockerize script](https://github.com/pythoninthegrass/docker-python)
-    * Test new `Dockerfile` (requirements.txt, `COPY /ms-playwright ...`) 
 * [argparse](https://realpython.com/command-line-interfaces-python-argparse/)
 * Add SMTP
     * Google API account for mail server
