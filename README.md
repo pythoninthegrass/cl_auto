@@ -4,14 +4,24 @@
 ## Setup
 ### python
 ```bash
+# macOS
 brew install pyenv
-# pyenv install 3.9.0
-# pyenv local 3.9.0
-# ln -s ~/.pyenv/versions/3.9.0/bin/python3.9 /usr/local/bin/python3.9
+
+# *nix
+curl https://pyenv.run | bash
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+
+# python3.9
+pyenv install 3.9.0
+pyenv local 3.9.0
+ln -s ~/.pyenv/versions/3.9.0/bin/python3.9 /usr/local/bin/python3.9
 ```
 ### pipenv
 ```bash
 # new install (automatically installs python version via pyenv)
+pip install --user pipenv
 pipenv install
 
 # playwright
