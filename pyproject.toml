@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "cl_auto"
+version = "0.1.0"
+description = ""
+authors = ["pythoninthegrass <4097471+pythoninthegrass@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+bs4 = "*"
+ipykernel = "*"
+pandas = "*"
+prettytable = "*"
+python-craigslist = "*"
+python-decouple = "*"
+requests = "*"
+numpy = "*"
+playwright = "*"
+prompt-toolkit = "*"
+websockets = "*"
+
+[tool.poetry.dev-dependencies]
+icecream = "^2.1.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
