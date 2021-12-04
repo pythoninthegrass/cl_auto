@@ -1,5 +1,5 @@
 # custom
-.vscode/settings.json
+.vscode/
 *.bak
 *.csv
 *.txt
